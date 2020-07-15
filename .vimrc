@@ -10,15 +10,15 @@
 "  ░   ░        ░  ░░ ░      ░  ░   
 "                  ░               
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-" 	Config layout:
-"	1) Sensible settings             | Settings taken from vim-sensible
-"	2) General settings              | 
-"	3) Plugins						 | 
-"	4) Plugin Settings				 | 
-"	5) Bindings and remaps			 |
-"	6) Theme/Appearence				 |	
-"	7) Commands and Functions		 |	
-"	8) Snippets						 | 
+"   Config layout:
+"   1) Sensible settings             | Settings taken from vim-sensible
+"   2) General settings              | 
+"   3) Plugins                       | 
+"   4) Plugin Settings               | 
+"   5) Bindings and remaps           |
+"   6) Theme/Appearence              |  
+"   7) Commands and Functions        |  
+"   8) Snippets                      | 
 "
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -54,9 +54,9 @@ set viewoptions-=options
 let mapleader=","
 
 "set relativenumber  "Show how far away lines are
-set number 		    "Show current line number
-set wrap			"Wrap lines
-set showmatch 		"When bracket is inserted show matching one
+set number          "Show current line number
+set wrap            "Wrap lines
+set showmatch       "When bracket is inserted show matching one
 set hidden " hide buffers, not close them
 
 " maintain undo history between sessions
@@ -93,7 +93,7 @@ set infercase
 " searching
 set hlsearch
 set incsearch
-set gdefault			" Always substitute all matches in a line
+set gdefault            " Always substitute all matches in a line
 
 
 " show existing tab with 4 spaces width
@@ -101,17 +101,17 @@ set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
 
-set expandtab 		" On pressing tab, insert 4 spaces
-set smarttab		" Enable smart-tabs
-set softtabstop=2 	" let backspace delete indent
+set expandtab       " On pressing tab, insert 4 spaces
+set smarttab        " Enable smart-tabs
+set softtabstop=2   " let backspace delete indent
 
-set linebreak		" Break lines at word (requires Wrap lines)
-set showbreak=+++ 	" Wrap-broken line prefix
-set textwidth=100	" Line wrap (number of cols)
+set linebreak       " Break lines at word (requires Wrap lines)
+set showbreak=+++   " Wrap-broken line prefix
+set textwidth=100   " Line wrap (number of cols)
 
-set visualbell		" Use visual bell (no beeping)
+set visualbell      " Use visual bell (no beeping)
 
-set ruler			" Show row and column ruler information
+set ruler           " Show row and column ruler information
 
 "------------------------------------------------------------
 " Plugins
