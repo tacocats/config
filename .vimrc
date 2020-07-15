@@ -19,7 +19,6 @@
 "   6) Theme/Appearence              |  
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
-"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 "------------------------------------------------------------
@@ -53,7 +52,7 @@ set viewoptions-=options
 "------------------------------------------------------------
 let mapleader=","
 
-"set relativenumber  "Show how far away lines are
+set relativenumber  "Show how far away lines are
 set number          "Show current line number
 set wrap            "Wrap lines
 set showmatch       "When bracket is inserted show matching one
@@ -95,7 +94,6 @@ set hlsearch
 set incsearch
 set gdefault            " Always substitute all matches in a line
 
-
 " show existing tab with 4 spaces width
 set tabstop=4
 " when indenting with '>', use 4 spaces width
@@ -112,6 +110,12 @@ set textwidth=100   " Line wrap (number of cols)
 set visualbell      " Use visual bell (no beeping)
 
 set ruler           " Show row and column ruler information
+
+" Set splits to open like expected
+set splitbelow
+set splitright
+
+set clipboard+=unnamedplus " allow copy/paste from vim<-->computer
 
 "------------------------------------------------------------
 " Plugins
@@ -130,6 +134,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'easymotion/vim-easymotion'
 Plug 'vimwiki/vimwiki'
 Plug 'vim-vdebug/vdebug'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Themes
 Plug 'dikiaap/minimalist'
@@ -180,22 +186,46 @@ let g:vimwiki_list = [{'path': '~/vimwiki',
 map <C-n> :NERDTreeToggle <CR>
 map <C-b> :CtrlP <CR>
 
+" Tab mappings
+map <C-t>n :tabnew
+map <C-t>x :tabclose
+map <C-t>l :tabn<cr> 
+map <C-t>h :tabr<cr> 
+map <C-t>j :tabl<cr> 
+map <C-t>k :tabp<cr> 
+
+" Right click context menu popup
+nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
+inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
+vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
+
+" Trigger configuration for UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 "------------------------------------------------------------
 " Theme/Appearence
 "------------------------------------------------------------
 set t_Co=256
 colorscheme minimalist
 
+hi CursorLineNr guifg=Orange gui=bold
+
 " GUI mode settings
-if has('gui_running')
+if exists('g:GuiLoaded')
     set guifont=Source_Code_Pro:h10:cANSI:qDRAFT
 endif
+
+" This should probably be behind a GUI check but isn't working 
+autocmd VimEnter * GuiPopupmenu 0
 
 "------------------------------------------------------------
 " Commands and Functions
 "------------------------------------------------------------
 " Assume windows w/ no WSL access. NeoVim
-command Vimconfig :e C:/Users/jmoriar2/AppData/Local/nvim"
+command Vimconfig :e C:/Users/jmoriar2/AppData/Local/nvim/init.vim"
+cd $HOME
 
 "------------------------------------------------------------
 " Snippets
