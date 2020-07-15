@@ -10,6 +10,17 @@
 "  ░   ░        ░  ░░ ░      ░  ░   
 "                  ░               
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+" 	Config layout:
+"	1) Sensible settings             | Settings taken from vim-sensible
+"	2) General settings              | 
+"	3) Plugins						 | 
+"	4) Plugin Settings				 | 
+"	5) Bindings and remaps			 |
+"	6) Theme/Appearence				 |	
+"	7) Commands and Functions		 |	
+"	8) Snippets						 | 
+"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 "------------------------------------------------------------
 " Sensible settings
@@ -38,7 +49,7 @@ set sessionoptions-=options
 set viewoptions-=options
 
 "------------------------------------------------------------
-" Some general settings
+" General settings
 "------------------------------------------------------------
 let mapleader=","
 
@@ -118,6 +129,9 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'easymotion/vim-easymotion'
 Plug 'vimwiki/vimwiki'
+Plug 'vim-vdebug/vdebug'
+
+" Themes
 Plug 'dikiaap/minimalist'
 
 " Plug 'kassio/neoterm'
@@ -152,6 +166,14 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
+" Need this for work. SSL won't verify behind a firewall.
+let $GIT_SSL_NO_VERIFY = 'true'
+
+" Vimwiki settings
+let g:vimwiki_list = [{'path': '~/vimwiki',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+
 "------------------------------------------------------------
 " Bindings and remaps
 "------------------------------------------------------------
@@ -168,3 +190,13 @@ colorscheme minimalist
 if has('gui_running')
     set guifont=Source_Code_Pro:h10:cANSI:qDRAFT
 endif
+
+"------------------------------------------------------------
+" Commands and Functions
+"------------------------------------------------------------
+" Assume windows w/ no WSL access. NeoVim
+command Vimconfig :e C:/Users/jmoriar2/AppData/Local/nvim"
+
+"------------------------------------------------------------
+" Snippets
+"------------------------------------------------------------
