@@ -10,7 +10,6 @@ My config files
 
 https://github.com/syl20bnr/spacemacs
 
-## Atom 
+## Configs for bash/fish/zsh
 
-* Hydrogen
-* git
+## Tmux
