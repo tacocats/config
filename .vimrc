@@ -137,6 +137,9 @@ Plug 'vim-vdebug/vdebug'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+" Allows for easily adding symbols
+Plug 'arthurxavierx/vim-unicoder'
+
 " Themes
 Plug 'dikiaap/minimalist'
 
@@ -220,6 +223,12 @@ endif
 " This should probably be behind a GUI check but isn't working 
 autocmd VimEnter * GuiPopupmenu 0
 
+" General syntax conceals, make text look pretty 
+set conceallevel=1
+syntax keyword jOperator sum conceal cchar=∑
+syntax keyword jStatement lambda conceal cchar=λ
+syntax keyword jKeyword alpha conceal cchar=α
+
 "------------------------------------------------------------
 " Commands and Functions
 "------------------------------------------------------------
@@ -230,3 +239,4 @@ cd $HOME
 "------------------------------------------------------------
 " Snippets
 "------------------------------------------------------------
+
