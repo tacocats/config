@@ -10,6 +10,9 @@ My config files
 
 https://github.com/syl20bnr/spacemacs
 
-## Configs for bash/fish/zsh
-
-## Tmux
+# See shells directory for:
+* Bash
+* ZSH
+* Powershell
+* Windows terminal config
+* Tmux config (O my tmux)
