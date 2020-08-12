@@ -20,7 +20,7 @@
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
+ 
 "------------------------------------------------------------
 " Sensible settings
 " https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim
@@ -46,32 +46,32 @@ if !empty(&viminfo)
 endif
 set sessionoptions-=options
 set viewoptions-=options
-
+ 
 "------------------------------------------------------------
 " General settings
 "------------------------------------------------------------
 let mapleader=","
-
+ 
 set relativenumber  "Show how far away lines are
 set number          "Show current line number
 set wrap            "Wrap lines
 set showmatch       "When bracket is inserted show matching one
 set hidden " hide buffers, not close them
-
+ 
 " maintain undo history between sessions
 set undofile
 set undodir=~/.vim/undo
 set noswapfile
-
+ 
 " Set encoding
 set encoding=utf-8
 scriptencoding utf-8
-
+ 
 " lazy file name tab completion
 set wildmode=longest,list,full
 set wildmenu
 set wildignorecase
-
+ 
 " ignore files vim doesnt use for lazy file completion
 set wildignore+=.git,.hg,.svn
 set wildignore+=*.aux,*.out,*.toc
@@ -83,40 +83,40 @@ set wildignore+=*.eot,*.otf,*.ttf,*.woff
 set wildignore+=*.doc,*.pdf,*.cbr,*.cbz
 set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz,*.kgb
 set wildignore+=*.swp,.lock,.DS_Store,._*
-
+ 
 " case insensitive search
 set ignorecase
 set smartcase
 set infercase
-
+ 
 " searching
 set hlsearch
 set incsearch
 set gdefault            " Always substitute all matches in a line
-
+ 
 " show existing tab with 4 spaces width
 set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
-
+ 
 set expandtab       " On pressing tab, insert 4 spaces
 set smarttab        " Enable smart-tabs
 set softtabstop=2   " let backspace delete indent
-
+ 
 set linebreak       " Break lines at word (requires Wrap lines)
 set showbreak=+++   " Wrap-broken line prefix
 set textwidth=100   " Line wrap (number of cols)
-
+ 
 set visualbell      " Use visual bell (no beeping)
-
+ 
 set ruler           " Show row and column ruler information
-
+ 
 " Set splits to open like expected
 set splitbelow
 set splitright
-
+ 
 set clipboard+=unnamedplus " allow copy/paste from vim<-->computer
-
+ 
 "------------------------------------------------------------
 " Plugins
 "------------------------------------------------------------
@@ -136,13 +136,14 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-vdebug/vdebug'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-
-" Allows for easily adding symbols
+ 
+" Smybols and syling
 Plug 'arthurxavierx/vim-unicoder'
-
+ 
 " Themes
 Plug 'dikiaap/minimalist'
-
+Plug 'morhetz/gruvbox'
+ 
 " Plug 'kassio/neoterm'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'andreyorst/SimpleSnippets.vim'
@@ -150,45 +151,41 @@ Plug 'dikiaap/minimalist'
 " Plug 'mhinz/vim-startify'
 " Plug 'Shougo/neocomplcache'
 " Plug 'skywind3000/asyncrun.vim'
-
+ 
 " Vim math stuff
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'plasticboy/vim-markdown'
-
+ 
 " Vim Help and Cheat Sheet
 " Plug '~/plugged/myhelp'
 call plug#end()
-
+ 
 "------------------------------------------------------------
 " Plugin Settings
 "------------------------------------------------------------
 " Allow vim-airline to show
 set laststatus=2
-
+ 
 " Smarter tab lines
 let g:airline#extensions#tabline#enabled = 1
-
+ 
 " Vim rainbow-brackets settings 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-
+ 
 " Need this for work. SSL won't verify behind a firewall.
 let $GIT_SSL_NO_VERIFY = 'true'
-
-" Vimwiki settings
-let g:vimwiki_list = [{'path': '~/vimwiki',
-                       \ 'syntax': 'markdown', 'ext': '.md'}]
-
-
+ 
+ 
 "------------------------------------------------------------
 " Bindings and remaps
 "------------------------------------------------------------
 map <C-n> :NERDTreeToggle <CR>
 map <C-b> :CtrlP <CR>
-
+ 
 " Tab mappings
 map <C-t>n :tabnew
 map <C-t>x :tabclose
@@ -196,47 +193,103 @@ map <C-t>l :tabn<cr>
 map <C-t>h :tabr<cr> 
 map <C-t>j :tabl<cr> 
 map <C-t>k :tabp<cr> 
-
+ 
 " Right click context menu popup
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
 inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
 vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-
+ 
 " Trigger configuration for UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
+ 
 "------------------------------------------------------------
 " Theme/Appearence
 "------------------------------------------------------------
 set t_Co=256
-colorscheme minimalist
-
+"colorscheme minimalist
+colorscheme gruvbox 
+ 
 hi CursorLineNr guifg=Orange gui=bold
-
+ 
 " GUI mode settings
 if exists('g:GuiLoaded')
     set guifont=Source_Code_Pro:h10:cANSI:qDRAFT
 endif
-
+ 
 " This should probably be behind a GUI check but isn't working 
 autocmd VimEnter * GuiPopupmenu 0
-
-" General syntax conceals, make text look pretty 
-set conceallevel=1
-syntax keyword jOperator sum conceal cchar=∑
-syntax keyword jStatement lambda conceal cchar=λ
-syntax keyword jKeyword alpha conceal cchar=α
-
+set guifont=Hack:h10
+ 
+ 
 "------------------------------------------------------------
 " Commands and Functions
 "------------------------------------------------------------
 " Assume windows w/ no WSL access. NeoVim
 command Vimconfig :e C:/Users/jmoriar2/AppData/Local/nvim/init.vim"
 cd $HOME
-
+ 
 "------------------------------------------------------------
 " Snippets
 "------------------------------------------------------------
-
+ 
+ 
+"------------------------------------------------------------
+" Vimwiki Settings
+"------------------------------------------------------------
+" Use markdown 
+let g:vimwiki_list = [{'path': '~/vimwiki',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
+ 
+"TODO
+set concealcursor=n
+set conceallevel=2
+"hi AsteriskBold  cterm=bold gui=bold
+syn match RedWiki contained "<red></red>" conceal                                      
+"syn match AsteriskBold "\\\@<!\*\*[^"*|]\+\*\*" contains=Asterisks 
+hi Asterisks NONE
+syn match Asterisks contained "**" conceal  
+ 
+hi pyKeyword ctermfg=green guifg=green
+ 
+hi FancySymbols ctermfg=green guifg=green 
+ 
+syntax keyword pyKeyword alpha conceal cchar=a
+syntax keyword pyKeyword alpha conceal cchar="test"
+syntax keyword pyKeyword ALPHA conceal cchar=α
+syntax keyword pyKeyword Gamma conceal cchar=Γ
+syntax keyword pyConstant None conceal cchar=∅
+ 
+syn match ArrowHead contained ">" conceal cchar=▶
+syn match ArrowTail contained "-" conceal cchar=─
+syn match ArrowFull "->" contains=ArrowHead,ArrowTail
+ 
+" remove the keywords. we'll re-add them below
+syntax clear pythonOperator
+ 
+syntax match pythonOperator "\<is\>"
+ 
+syntax match pyNiceOperator "\<in\>" conceal cchar=∈
+syntax match pyNiceOperator "\<or\>" conceal cchar=∨
+syntax match pyNiceOperator "\<and\>" conceal cchar=∧
+" include the space after “not” – if present – so that “not a” becomes “¬a”.
+" also, don't hide “not” behind  ‘¬’ if it is after “is ”.
+syntax match pyNiceOperator "\%(is \)\@<!\<not\%( \|\>\)" conceal cchar=¬
+syntax match pyNiceOperator "\<not in\>" conceal cchar=∉
+syntax match pyNiceOperator "<=" conceal cchar=≤
+syntax match pyNiceOperator ">=" conceal cchar=≥
+" only conceal “==” if alone, to avoid concealing SCM conflict markers
+syntax match pyNiceOperator "=\@<!===\@!" conceal cchar=≡
+syntax match pyNiceOperator "!=" conceal cchar=≢
+ 
+syntax keyword pyNiceOperator sum conceal cchar=∑
+syntax match pyNiceOperator "\<\%(math\.\)\?sqrt\>" conceal cchar=√
+syntax match pyNiceKeyword "\<\%(math\.\)\?pi\>" conceal cchar=π
+ 
+syntax keyword pyNiceStatement lambda conceal cchar=λ
+ 
+hi link pyNiceOperator Operator
+hi link pyNiceStatement Statement
+hi link pyNiceKeyword Keyword
+hi! link Conceal Operator
