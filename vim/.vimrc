@@ -20,7 +20,12 @@
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
- 
+"------------------------------------------------------------
+" Personal Settings
+"------------------------------------------------------------
+let fullInstall = 1    " If 1 will install all fonts, themes, plugins etc. If 0 will do minimal install
+let workConfig = 0     " If personal or work config
+
 "------------------------------------------------------------
 " Sensible settings
 " https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim
@@ -141,8 +146,16 @@ Plug 'honza/vim-snippets'
 Plug 'arthurxavierx/vim-unicoder'
  
 " Themes
-Plug 'dikiaap/minimalist'
 Plug 'morhetz/gruvbox'
+if fullInstall
+    Plug 'zefei/simple-dark'
+    Plug 'dikiaap/minimalist'
+    Plug 'rakr/vim-one'
+    Plug 'jscappini/material.vim'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'dracula/vim'
+    Plug 'haishanh/night-owl.vim'
+endif
  
 " Plug 'kassio/neoterm'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -177,8 +190,9 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
  
 " Need this for work. SSL won't verify behind a firewall.
-let $GIT_SSL_NO_VERIFY = 'true'
- 
+if workConfig
+    let $GIT_SSL_NO_VERIFY = 'true'
+endif
  
 "------------------------------------------------------------
 " Bindings and remaps
@@ -218,8 +232,11 @@ if exists('g:GuiLoaded')
     set guifont=Source_Code_Pro:h10:cANSI:qDRAFT
 endif
  
-" This should probably be behind a GUI check but isn't working 
-autocmd VimEnter * GuiPopupmenu 0
+if workConfig
+    " This should probably be behind a GUI check but isn't working 
+    autocmd VimEnter * GuiPopupmenu 0
+endif
+
 set guifont=Hack:h10
  
  
