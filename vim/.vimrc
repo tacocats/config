@@ -19,12 +19,14 @@
 "   6) Theme/Appearence              |  
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
+"   9) Vimwiki Settings              | 
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 "------------------------------------------------------------
 " Personal Settings
 "------------------------------------------------------------
 let fullInstall = 1    " If 1 will install all fonts, themes, plugins etc. If 0 will do minimal install
 let workConfig = 0     " If personal or work config
+let nvim = 0           " If using nvim. When false will assume regular vim
 
 "------------------------------------------------------------
 " Sensible settings
@@ -144,7 +146,12 @@ Plug 'honza/vim-snippets'
  
 " Smybols and syling
 Plug 'arthurxavierx/vim-unicoder'
- 
+
+" Custom help plugin
+if has('win32')
+    Plug '~/Documents/myhelp'
+endif
+
 " Themes
 Plug 'morhetz/gruvbox'
 if fullInstall
@@ -207,6 +214,14 @@ map <C-t>l :tabn<cr>
 map <C-t>h :tabr<cr> 
 map <C-t>j :tabl<cr> 
 map <C-t>k :tabp<cr> 
+
+" Editing mappings
+" | Key Mode  |  Mapping | Description |
+" --------------------------------------
+" |  Normal   | <ctrl>+d | Delete line |
+inoremap <c-d> <c-o>dd
+" | Normal    | <space>  | Select word |
+nnoremap <space> viw
  
 " Right click context menu popup
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
