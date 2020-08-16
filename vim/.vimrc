@@ -20,14 +20,18 @@
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
 "   9) Vimwiki Settings              | 
+"  10) Custom Functions              | These are more testing functions
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 "------------------------------------------------------------
 " Personal Settings
 "------------------------------------------------------------
 let fullInstall = 1    " If 1 will install all fonts, themes, plugins etc. If 0 will do minimal install
 let workConfig = 0     " If personal or work config
-let nvim = 0           " If using nvim. When false will assume regular vim
-
+" Check if NeoVim or Vim use - `if has('nvim')
+" Check if GUI or TUI/CLI - `if has('gui')
+" Checking for OS has(), with unix or win32 
+" General other checks, see `:help feature-list`
+"
 "------------------------------------------------------------
 " Sensible settings
 " https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim
@@ -121,9 +125,18 @@ set ruler           " Show row and column ruler information
 " Set splits to open like expected
 set splitbelow
 set splitright
- 
-set clipboard+=unnamedplus " allow copy/paste from vim<-->computer
- 
+
+" allow copy/paste from vim<-->computer
+if has('win32')
+    set clipboard=unnamed
+endif
+if has('linux')
+    set clipboard+=unnamedplus  
+endif
+
+" Set simba files to be read as pascal
+au BufRead,BufNewFile *.simba set filetype=pascal
+
 "------------------------------------------------------------
 " Plugins
 "------------------------------------------------------------
@@ -143,6 +156,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-vdebug/vdebug'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'skywind3000/vim-quickui'
  
 " Smybols and syling
 Plug 'arthurxavierx/vim-unicoder'
@@ -206,10 +220,11 @@ endif
 "------------------------------------------------------------
 map <C-n> :NERDTreeToggle <CR>
 map <C-b> :CtrlP <CR>
+map <C-m> :Tagbar <CR>
  
 " Tab mappings
-map <C-t>n :tabnew
-map <C-t>x :tabclose
+map <C-t>n :tabnew<CR>
+map <C-t>x :tabclose<CR>
 map <C-t>l :tabn<cr> 
 map <C-t>h :tabr<cr> 
 map <C-t>j :tabl<cr> 
@@ -257,9 +272,18 @@ set guifont=Hack:h10
  
 "------------------------------------------------------------
 " Commands and Functions
-"------------------------------------------------------------
-" Assume windows w/ no WSL access. NeoVim
-command Vimconfig :e C:/Users/jmoriar2/AppData/Local/nvim/init.vim"
+"-----------------------------------------------------------
+function VimConfig()
+    :e $MYVIMRC
+endfunction
+
+function VimConfigReload()
+    source $MYVIMRC
+endfunction
+
+command Vimconfig call VimConfig()
+command Vimconfigreload call VimConfigReload()
+
 cd $HOME
  
 "------------------------------------------------------------
@@ -325,3 +349,20 @@ hi link pyNiceOperator Operator
 hi link pyNiceStatement Statement
 hi link pyNiceKeyword Keyword
 hi! link Conceal Operator
+
+
+"------------------------------------------------------------
+" Custom Functions 
+"------------------------------------------------------------
+" For buffer info https://vim.fandom.com/wiki/Vim_buffer_FAQ
+function CustomDisplay()
+    "let t=[] | %s/test.*/\=add(t,submatch(1))[1:0]/g
+    "echom t
+    vnew
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    set nobuflisted
+    set nomodifiable
+endfunction
+command CustomDisplay call CustomDisplay()
