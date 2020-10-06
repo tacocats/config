@@ -20,7 +20,7 @@
 "   7) Commands and Functions        |  
 "   8) Snippets                      | 
 "   9) Vimwiki Settings              | 
-"  10) Custom Functions              | These are more testing functions
+"  10) Custom Functions              | 
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 "------------------------------------------------------------
 " Personal Settings
@@ -156,7 +156,10 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-vdebug/vdebug'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" Custom UI
 Plug 'skywind3000/vim-quickui'
+Plug 'liuchengxu/vim-which-key'
  
 " Smybols and syling
 Plug 'arthurxavierx/vim-unicoder'
@@ -214,7 +217,10 @@ au Syntax * RainbowParenthesesLoadBraces
 if workConfig
     let $GIT_SSL_NO_VERIFY = 'true'
 endif
- 
+
+" Disable 'Press ? for Help' in NERDTree
+let NERDTreeMinimalUI=1
+
 "------------------------------------------------------------
 " Bindings and remaps
 "------------------------------------------------------------
@@ -236,7 +242,7 @@ map <C-t>k :tabp<cr>
 " |  Normal   | <ctrl>+d | Delete line |
 inoremap <c-d> <c-o>dd
 " | Normal    | <space>  | Select word |
-nnoremap <space> viw
+"nnoremap <space> viw
  
 " Right click context menu popup
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
@@ -247,7 +253,12 @@ vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
- 
+
+" hit space twitce to open menu
+" map <leader>m :call quickui#menu#open()<cr>
+"nnoremap <silent> <leader> :WhichKey  ','<CR>
+map <space><space> :call quickui#menu#open()<cr>
+
 "------------------------------------------------------------
 " Theme/Appearence
 "------------------------------------------------------------
@@ -256,6 +267,9 @@ set t_Co=256
 colorscheme gruvbox 
  
 hi CursorLineNr guifg=Orange gui=bold
+ 
+" QuickUI Theme
+let g:quickui_color_scheme = 'gruvbox'
  
 " GUI mode settings
 if exists('g:GuiLoaded')
@@ -268,21 +282,27 @@ if workConfig
 endif
 
 set guifont=Hack:h10
- 
+
+let g:quickui_show_tip=1
+let g:quickui_border_style=2
  
 "------------------------------------------------------------
 " Commands and Functions
 "-----------------------------------------------------------
-function VimConfig()
-    :e $MYVIMRC
-endfunction
+if ! exists('*VimConfig')
+  function VimConfig()
+      :e $MYVIMRC
+  endfunction
+endif
 
-function VimConfigReload()
-    source $MYVIMRC
-endfunction
+if ! exists('*VimConfigReload')
+  function VimConfigReload()
+      source $MYVIMRC
+  endfunction
+endif
 
-command Vimconfig call VimConfig()
-command Vimconfigreload call VimConfigReload()
+command! Vimconfig call VimConfig()
+command! Vimconfigreload call VimConfigReload()
 
 cd $HOME
  
@@ -355,7 +375,7 @@ hi! link Conceal Operator
 " Custom Functions 
 "------------------------------------------------------------
 " For buffer info https://vim.fandom.com/wiki/Vim_buffer_FAQ
-function CustomDisplay()
+function! CustomDisplay()
     "let t=[] | %s/test.*/\=add(t,submatch(1))[1:0]/g
     "echom t
     vnew
@@ -365,4 +385,4 @@ function CustomDisplay()
     set nobuflisted
     set nomodifiable
 endfunction
-command CustomDisplay call CustomDisplay()
+command! CustomDisplay call CustomDisplay()
