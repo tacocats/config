@@ -63,9 +63,9 @@ set viewoptions-=options
 "------------------------------------------------------------
 let mapleader=","
  
-set relativenumber  "Show how far away lines are
+set norelativenumber  "Show how far away lines are
 set number          "Show current line number
-set wrap            "Wrap lines
+set nowrap            "Wrap lines
 set showmatch       "When bracket is inserted show matching one
 set hidden " hide buffers, not close them
  
@@ -254,7 +254,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" hit space twitce to open menu
+" hit space twice to open menu
 " map <leader>m :call quickui#menu#open()<cr>
 "nnoremap <silent> <leader> :WhichKey  ','<CR>
 map <space><space> :call quickui#menu#open()<cr>
@@ -264,7 +264,8 @@ map <space><space> :call quickui#menu#open()<cr>
 "------------------------------------------------------------
 set t_Co=256
 "colorscheme minimalist
-colorscheme gruvbox 
+"colorscheme gruvbox 
+colorscheme dracula
  
 hi CursorLineNr guifg=Orange gui=bold
  
@@ -318,57 +319,56 @@ cd $HOME
 let g:vimwiki_list = [{'path': '~/vimwiki',
                        \ 'syntax': 'markdown', 'ext': '.md'}]
  
-"TODO
-set concealcursor=n
-set conceallevel=2
-"hi AsteriskBold  cterm=bold gui=bold
-syn match RedWiki contained "<red></red>" conceal                                      
-"syn match AsteriskBold "\\\@<!\*\*[^"*|]\+\*\*" contains=Asterisks 
-hi Asterisks NONE
-syn match Asterisks contained "**" conceal  
- 
-hi pyKeyword ctermfg=green guifg=green
- 
-hi FancySymbols ctermfg=green guifg=green 
- 
-syntax keyword pyKeyword alpha conceal cchar=a
-syntax keyword pyKeyword alpha conceal cchar="test"
-syntax keyword pyKeyword ALPHA conceal cchar=α
-syntax keyword pyKeyword Gamma conceal cchar=Γ
-syntax keyword pyConstant None conceal cchar=∅
- 
-syn match ArrowHead contained ">" conceal cchar=▶
-syn match ArrowTail contained "-" conceal cchar=─
-syn match ArrowFull "->" contains=ArrowHead,ArrowTail
- 
-" remove the keywords. we'll re-add them below
-syntax clear pythonOperator
- 
-syntax match pythonOperator "\<is\>"
- 
-syntax match pyNiceOperator "\<in\>" conceal cchar=∈
-syntax match pyNiceOperator "\<or\>" conceal cchar=∨
-syntax match pyNiceOperator "\<and\>" conceal cchar=∧
-" include the space after “not” – if present – so that “not a” becomes “¬a”.
-" also, don't hide “not” behind  ‘¬’ if it is after “is ”.
-syntax match pyNiceOperator "\%(is \)\@<!\<not\%( \|\>\)" conceal cchar=¬
-syntax match pyNiceOperator "\<not in\>" conceal cchar=∉
-syntax match pyNiceOperator "<=" conceal cchar=≤
-syntax match pyNiceOperator ">=" conceal cchar=≥
-" only conceal “==” if alone, to avoid concealing SCM conflict markers
-syntax match pyNiceOperator "=\@<!===\@!" conceal cchar=≡
-syntax match pyNiceOperator "!=" conceal cchar=≢
- 
-syntax keyword pyNiceOperator sum conceal cchar=∑
-syntax match pyNiceOperator "\<\%(math\.\)\?sqrt\>" conceal cchar=√
-syntax match pyNiceKeyword "\<\%(math\.\)\?pi\>" conceal cchar=π
- 
-syntax keyword pyNiceStatement lambda conceal cchar=λ
- 
-hi link pyNiceOperator Operator
-hi link pyNiceStatement Statement
-hi link pyNiceKeyword Keyword
-hi! link Conceal Operator
+"set concealcursor=n
+"set conceallevel=2
+""hi AsteriskBold  cterm=bold gui=bold
+"syn match RedWiki contained "<red></red>" conceal                                      
+""syn match AsteriskBold "\\\@<!\*\*[^"*|]\+\*\*" contains=Asterisks 
+"hi Asterisks NONE
+"syn match Asterisks contained "**" conceal  
+" 
+"hi pyKeyword ctermfg=green guifg=green
+" 
+"hi FancySymbols ctermfg=green guifg=green 
+" 
+"syntax keyword pyKeyword alpha conceal cchar=a
+"syntax keyword pyKeyword alpha conceal cchar="test"
+"syntax keyword pyKeyword ALPHA conceal cchar=α
+"syntax keyword pyKeyword Gamma conceal cchar=Γ
+"syntax keyword pyConstant None conceal cchar=∅
+" 
+"syn match ArrowHead contained ">" conceal cchar=▶
+"syn match ArrowTail contained "-" conceal cchar=─
+"syn match ArrowFull "->" contains=ArrowHead,ArrowTail
+" 
+"" remove the keywords. we'll re-add them below
+"syntax clear pythonOperator
+" 
+"syntax match pythonOperator "\<is\>"
+" 
+"syntax match pyNiceOperator "\<in\>" conceal cchar=∈
+"syntax match pyNiceOperator "\<or\>" conceal cchar=∨
+"syntax match pyNiceOperator "\<and\>" conceal cchar=∧
+"" include the space after “not” – if present – so that “not a” becomes “¬a”.
+"" also, don't hide “not” behind  ‘¬’ if it is after “is ”.
+"syntax match pyNiceOperator "\%(is \)\@<!\<not\%( \|\>\)" conceal cchar=¬
+"syntax match pyNiceOperator "\<not in\>" conceal cchar=∉
+"syntax match pyNiceOperator "<=" conceal cchar=≤
+"syntax match pyNiceOperator ">=" conceal cchar=≥
+"" only conceal “==” if alone, to avoid concealing SCM conflict markers
+"syntax match pyNiceOperator "=\@<!===\@!" conceal cchar=≡
+"syntax match pyNiceOperator "!=" conceal cchar=≢
+" 
+"syntax keyword pyNiceOperator sum conceal cchar=∑
+"syntax match pyNiceOperator "\<\%(math\.\)\?sqrt\>" conceal cchar=√
+"syntax match pyNiceKeyword "\<\%(math\.\)\?pi\>" conceal cchar=π
+" 
+"syntax keyword pyNiceStatement lambda conceal cchar=λ
+" 
+"hi link pyNiceOperator Operator
+"hi link pyNiceStatement Statement
+"hi link pyNiceKeyword Keyword
+"hi! link Conceal Operator
 
 
 "------------------------------------------------------------
@@ -392,12 +392,11 @@ call quickui#menu#reset()
 
 " install a 'File' menu, use [text, command] to represent an item.
 call quickui#menu#install('&File', [
-            \ [ "&New File\tCtrl+n", 'echo 0' ],
-            \ [ "&Open File\t(F3)", 'echo 1' ],
-            \ [ "&Close", 'echo 2' ],
+            \ [ "&New File\t", ':new' ],
+            \ [ "&Close", ':q' ],
             \ [ "--", '' ],
-            \ [ "&Save\tCtrl+s", 'echo 3'],
-            \ [ "Save &As", 'echo 4' ],
+            \ [ "&Save\t", ':w'],
+            \ [ "Save &As", ':w' ],
             \ [ "Save All", 'echo 5' ],
             \ [ "--", '' ],
             \ [ "E&xit\tAlt+x", 'echo 6' ],
@@ -411,10 +410,18 @@ call quickui#menu#install('&Edit', [
             \ ])
 
 " script inside %{...} will be evaluated and expanded in the string
-call quickui#menu#install("&Option", [
-			\ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
-			\ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
-			\ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
+call quickui#menu#install("&Plugins", [
+			\ ['NERDTree', ':NERDTreeToggle'],
+			\ ['Tagbar', ':Tagbar'],
+			\ ])
+
+call quickui#menu#install("&Vimwiki", [
+			\ ['Goto &Home', ':VimwikiIndex'],
+			\ ])
+
+call quickui#menu#install("&Text", [
+			\ ['Format &JSON', ':%!python -m json.tool'],
+			\ ['&Sort', ':sort'],
 			\ ])
 
 " register HELP menu with weight 10000
@@ -426,3 +433,4 @@ call quickui#menu#install('H&elp', [
 			\ ['&Quick Reference', 'help quickref', ''],
 			\ ['&Summary', 'help summary', ''],
 			\ ], 10000)
+
