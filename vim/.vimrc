@@ -168,6 +168,11 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.extra'
+Plug 'voldikss/vim-floaterm'
+" https://github.com/neoclide/coc.nvim 
  
 " LuaRocks
 Plug 'nvim-lua/plenary.nvim'
@@ -307,6 +312,10 @@ function! s:denite_my_settings() abort
   \ denite#do_map('toggle_select').'j'
 endfunction
 
+" F2 File runners
+"nmap <F2> :AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4  ls -la <CR>
+nmap <F2> :call RunFile() <CR>
+
 "------------------------------------------------------------
 " Theme/Appearence
 "------------------------------------------------------------
@@ -331,6 +340,7 @@ endif
 
 set guifont=FiraCode\ Nerd\ Font:h10
 "set guifont=Hack:h10
+
 
 let g:quickui_show_tip = 1
 let g:quickui_border_style = 2
@@ -452,6 +462,13 @@ syn match Asterisks contained "**" conceal
 "------------------------------------------------------------
 " Custom Functions
 "------------------------------------------------------------
+function! RunFile()
+    if &filetype ==# 'python' || &filetype ==# 'py'
+        :AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4 python "$(VIM_FILEPATH)" 
+        ":AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4  python3 %:t
+    endif  
+endfunction
+
 " For buffer info https://vim.fandom.com/wiki/Vim_buffer_FAQ
 function! CustomDisplay()
     "let t=[] | %s/test.*/\=add(t,submatch(1))[1:0]/g
