@@ -7,8 +7,8 @@
 "  ▒▓▒▒░   ▒▒   ▓▒█░░ ░▒ ▒  ░▒ ▒▒ ▓▒
 "  ▒ ░▒░    ▒   ▒▒ ░  ░  ▒   ░ ░▒ ▒░
 "  ░ ░ ░    ░   ▒   ░        ░ ░░ ░
-"  ░   ░        ░  ░░ ░      ░  ░  
-"                  ░              
+"  ░   ░        ░  ░░ ░      ░  ░
+"                  ░
 "
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 "   Config layout:
@@ -17,12 +17,13 @@
 "   3) Plugins                       |
 "   4) Plugin Settings               |
 "   5) Bindings and remaps           |
-"   6) Theme/Appearence              | 
-"   7) Commands and Functions        | 
+"   6) Theme/Appearence              |
+"   7) Commands and Functions        |
 "   8) Snippets                      |
 "   9) Vimwiki Settings              |
 "  10) Custom Functions              |
-"  11) Language Providers
+"  11) Language Providers            |
+"  12) WhichKey Settings             |
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 "------------------------------------------------------------
 " Personal Settings
@@ -65,8 +66,6 @@ set viewoptions-=options
 "------------------------------------------------------------
 let mapleader="\<Space>"
 let maplocalleader=","
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 set norelativenumber  "Show how far away lines are
 set number          "Show current line number
@@ -135,7 +134,7 @@ if has('win32')
     set clipboard=unnamed
 endif
 if has('linux')
-    set clipboard+=unnamedplus 
+    set clipboard+=unnamedplus
 endif
 " Set simba files to be read as pascal
 au BufRead,BufNewFile *.simba set filetype=pascal
@@ -172,21 +171,21 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.extra'
 Plug 'voldikss/vim-floaterm'
-" https://github.com/neoclide/coc.nvim 
- 
+" https://github.com/neoclide/coc.nvim
+
 " LuaRocks
 Plug 'nvim-lua/plenary.nvim'
 
 " Custom UI
-Plug 'skywind3000/vim-quickui'
-Plug 'liuchengxu/vim-which-key'
+Plug 'skywind3000/vim-quickui' " Menubar, also other quickUI
+Plug 'liuchengxu/vim-which-key' " Spacemacs key finder
 " Plug 'unite'
-if has('nvim')
+if has('nvim') " Denite = helm, etc
   Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/denite.nvim'
   Plug 'roxma/nvim-yarp'
- Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 " Smybols and syling
@@ -195,7 +194,7 @@ Plug 'arthurxavierx/vim-unicoder'
 " Custom help plugin
 if has('win32')
     Plug '~/Documents/myhelp'
-endif 
+endif
 
 " Themes
 Plug 'morhetz/gruvbox'
@@ -247,7 +246,7 @@ if workConfig
 endif
 
 " Disable 'Press ? for Help' in NERDTree
-let NERDTreeMinimalUI=1 
+let NERDTreeMinimalUI=1
 
 " Allow ctrlp to find all files
 "let g:ctrlp_max_files=2000
@@ -261,12 +260,12 @@ map <C-p> :FZF <CR>
 map <C-m> :Tagbar <CR>
 
 " Tab mappings
-map <C-t>n :tabnew<CR>
-map <C-t>x :tabclose<CR>
-map <C-t>l :tabn<cr>
-map <C-t>h :tabr<cr>
-map <C-t>j :tabl<cr>
-map <C-t>k :tabp<cr>
+map <leader>tn :tabnew<CR>
+map <leader>tx :tabclose<CR>
+map <leader>tl :tabn<cr>
+map <leader>th :tabr<cr>
+map <leader>tj :tabl<cr>
+map <leader>tk :tabp<cr>
 
 " Editing mappings
 " | Key Mode  |  Mapping | Description |
@@ -311,6 +310,7 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <Space>
   \ denite#do_map('toggle_select').'j'
 endfunction
+map <Leader>dc :Denite command<CR>
 
 " F2 File runners
 "nmap <F2> :AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4  ls -la <CR>
@@ -393,13 +393,25 @@ if ! exists('*MyHelp')
     function MyHelp()
         echo "+------------------------------------------+ \n|                                          | \n|                                          | \n|              Cheat Sheets                | \n|                                          | \n|                                          | \n+------------------------------------------+"
     endfunction
-endif 
+endif
 
 command! Vimconfig call VimConfig()
 command! Vimconfigreload call VimConfigReload()
 command! MyHelp call MyHelp()
 
-" cd $HOME
+if ! exists ('*ShowChars')
+    function ShowChars()
+        set list
+        if &listchars == "tab:> ,trail:-,nbsp:+"
+            set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
+        else
+            set nolist lcs&
+        endif
+    endfunction
+endif
+command! ShowChars call ShowChars()
+
+cd $HOME
 
 "------------------------------------------------------------
 " Snippets
@@ -416,10 +428,10 @@ let g:vimwiki_list = [{'path': '~/vimwiki',
 set concealcursor=n
 set conceallevel=2
 "hi AsteriskBold  cterm=bold gui=bold
-syn match RedWiki contained "<red></red>" conceal                                      
+syn match RedWiki contained "<red></red>" conceal
 "syn match AsteriskBold "\\\@<!\*\*[^"*|]\+\*\*" contains=Asterisks
 hi Asterisks NONE
-syn match Asterisks contained "**" conceal 
+syn match Asterisks contained "**" conceal
 
 "hi pyKeyword ctermfg=green guifg=green
 "hi FancySymbols ctermfg=green guifg=green
@@ -458,15 +470,15 @@ syn match Asterisks contained "**" conceal
 "hi link pyNiceStatement Statement
 "hi link pyNiceKeyword Keyword
 "hi! link Conceal Operator
- 
+
 "------------------------------------------------------------
 " Custom Functions
 "------------------------------------------------------------
 function! RunFile()
     if &filetype ==# 'python' || &filetype ==# 'py'
-        :AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4 python "$(VIM_FILEPATH)" 
+        :AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4 python "$(VIM_FILEPATH)"
         ":AsyncRun -mode=term -pos=floaterm -position=bottomright -width=0.4  python3 %:t
-    endif  
+    endif
 endfunction
 
 " For buffer info https://vim.fandom.com/wiki/Vim_buffer_FAQ
@@ -475,7 +487,7 @@ function! CustomDisplay()
     "echom t
     vnew
 
-    setlocal filetype=CustomDisplay 
+    setlocal filetype=CustomDisplay
 
     setlocal noreadonly " in case the "view" mode is used
     setlocal buftype=nofile
@@ -497,7 +509,7 @@ function! DisplayMessages()
     let content = filter(split(x, "\n"), 'v:key != ""')
     let opts = {"close":"button", "title":"Vim Messages"}
     call quickui#textbox#open(content, opts)
-endfunc 
+endfunc
 
 " clear all the menus
 call quickui#menu#reset()
@@ -513,7 +525,7 @@ call quickui#menu#install('&File', [
             \ [ "Save All", 'echo 5' ],
             \ [ "--", '' ],
             \ [ "E&xit\tAlt+x", 'echo 6' ],
-            \ ]) 
+            \ ])
 
 " items containing tips, tips will display in the cmdline
 call quickui#menu#install('&Edit', [
@@ -545,7 +557,7 @@ call quickui#menu#install("&Text", [
             \ [ "--", '' ],
             \ ['Base64 Encode', ':%!python -m base64 -e'],
             \ ['Base64 Decode', ':%!python -m base64 -d']
-            \ ]) 
+            \ ])
 
 " register HELP menu with weight 10000
 "call quickui#menu#install('H&elp', [
@@ -555,7 +567,7 @@ call quickui#menu#install("&Text", [
             "\ ["&Tutorial", 'help tutor', ''],
             "\ ['&Quick Reference', 'help quickref', ''],
             "\ ['&Summary', 'help summary', ''],
-            "\ ], 10000) 
+            "\ ], 10000)
 
 let g:airline#extensions#tabline#enabled = 1
 " display buffers with :ls :b
@@ -588,3 +600,35 @@ local neorocks = require("plenary.neorocks")
 -- neorocks.ensure_installed('lua-cjson', 'cjson')
 EOF
 endif
+
+if ! exists('*AutoSysWork')
+    function AutoSysWork()
+        :%s/dhu/ph/gg
+        :%s/dpihp010/ppihp010/gg
+        :%s/-v uat //gg
+        :%s/DHaaS/PHaaS/gg
+    endfunction
+endif
+command! AutoSysWork call AutoSysWork()
+
+"------------------------------------------------------------
+" WhichKey Settings
+"------------------------------------------------------------
+call which_key#register('<Space>', "g:which_key_map")
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+
+set timeoutlen=50
+let g:which_key_use_floating_win = 1
+
+" Whichkey Prefix Naming
+let g:which_key_map = {}
+let g:which_key_map.t = {
+      \ 'name' : '+tabs' ,
+      \ 'n' : ['tabnew'     , 'new-tab']
+      \ }
+let g:which_key_map.w = {'name' : '+vimwiki'}
+let g:which_key_map.c = {'name' : '+NERDCommenter'}
+let g:which_key_map.d = {
+      \ 'name' : '+denite' ,
+      \ }
