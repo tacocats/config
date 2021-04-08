@@ -601,16 +601,6 @@ local neorocks = require("plenary.neorocks")
 EOF
 endif
 
-if ! exists('*AutoSysWork')
-    function AutoSysWork()
-        :%s/dhu/ph/gg
-        :%s/dpihp010/ppihp010/gg
-        :%s/-v uat //gg
-        :%s/DHaaS/PHaaS/gg
-    endfunction
-endif
-command! AutoSysWork call AutoSysWork()
-
 "------------------------------------------------------------
 " WhichKey Settings
 "------------------------------------------------------------
